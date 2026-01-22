@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="single_arm_ros2_control" params="sim namespace">
+    <ros2_control name="single_arm" type="system">
+      <hardware>
+        <xacro:if value="${sim}">
+          <plugin>mock_components/GenericSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="${sim}">
+          <plugin>single_arm_hardware_interface/SingleArmHardwareInterface</plugin>
+          <param name="namespace">${namespace}</param>
+        </xacro:unless>
+      </hardware>
+      
+      <joint name="joint1">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x01</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">whj</param>     <!-- 新增：固定用 WHJ -->
+        <param name="can_interface">can1</param>  <!-- 新增：固定用 can1 -->
+      </joint>
+      <joint name="joint2">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x02</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">whj</param>     <!-- 新增：固定用 WHJ -->
+        <param name="can_interface">can1</param>  <!-- 新增：固定用 can1 -->
+      </joint>
+      <joint name="joint3">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x03</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">whj</param>     <!-- 新增：固定用 WHJ -->
+        <param name="can_interface">can1</param>  <!-- 新增：固定用 can1 -->
+      </joint>
+      <joint name="joint4">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x04</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">rmd</param>     <!-- 新增：固定用 rmd -->
+        <param name="can_interface">can0</param>  <!-- 新增：固定用 can0 -->
+      </joint>
+      <joint name="joint5">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x05</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">rmd</param>     <!-- 新增：固定用 rmd -->
+        <param name="can_interface">can0</param>  <!-- 新增：固定用 can0 -->
+      </joint>
+      <joint name="joint6">
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <param name="can_id">0x06</param>
+        <param name="position_offset">0</param>
+        <param name="motor_type">rmd</param>     <!-- 新增：固定用 rmd -->
+        <param name="can_interface">can0</param>  <!-- 新增：固定用 can0 -->
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+</robot>

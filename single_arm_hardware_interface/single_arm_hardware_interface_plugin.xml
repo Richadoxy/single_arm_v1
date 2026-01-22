@@ -1,0 +1,10 @@
+<library path="single_arm_hardware_interface">
+  <class 
+    name="single_arm_hardware_interface/SingleArmHardwareInterface" 
+    type="single_arm_hardware_interface::SingleArmHardwareInterface" 
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface for CAN-based motors used in robotic arms.
+    </description>
+  </class>
+</library>

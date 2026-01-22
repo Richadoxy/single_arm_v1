@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="single_arm">
+
+  <xacro:include filename="$(find single_arm_description)/urdf/single_arm.urdf.xacro" />
+  <xacro:include filename="$(find single_arm_description)/config/single_arm.ros2_control.xacro" />
+
+  <link name="world"/>
+
+  <xacro:single_arm name="single_arm_demo" parent="world">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:single_arm>
+
+  <xacro:single_arm_ros2_control 
+    sim="false" namespace="" />
+
+</robot>

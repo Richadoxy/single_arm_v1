@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- 定义一个宏，用于添加光学平台（optical table） -->
+  <!-- 参数：parent（通常是world），以及可选的安装高度偏移（如果需要微调机械臂安装位置） -->
+  <xacro:macro name="scene" params="parent *table_origin">
+
+    <!-- 光学平台链接，使用你的 table.stl -->
+    <link name="optical_table">
+      <visual>
+        <!-- 根据你的STL坐标系调整origin（例如：如果STL原点在底部中心，把平台表面抬到z=0） -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>  <!-- 示例：假设table厚度0.3m，把表面抬到z=0，可自行调整 -->
+        <geometry>
+          <mesh filename="package://single_arm_description/meshes/visual/table.STL" scale="0.001 0.001 0.001"/>  <!-- 如果是mm单位，scale=0.001 -->
+        </geometry>
+        <material name="table_gray">
+          <color rgba="0.3 0.3 0.3 1.0"/>  <!-- 深灰色，典型光学平台颜色 -->
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>  <!-- 与visual保持一致 -->
+        <geometry>
+          <mesh filename="package://single_arm_description/meshes/collision/table_simplified.STL" scale="0.001 0.001 0.001"/>  <!-- 建议用简化版STL -->
+        </geometry>
+      </collision>
+
+      <!-- 可选：添加惯性（粗略估计，质量和惯性根据实际平台调整） -->
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="50.0"/>  <!-- 示例：50kg -->
+        <inertia ixx="10.0" ixy="0.0" ixz="0.0" iyy="10.0" iyz="0.0" izz="15.0"/>
+      </inertial>
+    </link>
+
+    <!-- 把光学平台固定到world（或parent） -->
+    <joint name="optical_table_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="optical_table"/>
+      <xacro:insert_block name="table_origin" />  <!-- 允许调用时指定整体偏移，例如放在房间某个位置 -->
+    </joint>
+
+  </xacro:macro>
+
+</robot>

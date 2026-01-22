@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="gripper" params="name parent *origin">
+    
+    <!-- 把夹爪固定到机械臂末端 -->
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${name}_base_link"/>
+      <xacro:insert_block name="origin" />  <!-- 允许调用时指定偏移/旋转 -->
+    </joint>
+
+    <!-- 夹爪基座链接（放你的STL） -->
+    <link name="${name}_base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>  <!-- 根据实际STL坐标调整 -->
+        <geometry>
+          <mesh filename="package://single_arm_description/meshes/visual/gripper.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="gray">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://single_arm_description/meshes/collision/gripper_simplified.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.05" rpy="0 0 0"/>  <!-- 粗略估计质心 -->
+        <mass value="0.5"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <!-- TCP（工具中心点，抓取时用的参考帧） -->
+    <joint name="${name}_tcp_joint" type="fixed">
+      <parent link="${name}_base_link"/>
+      <child link="${name}_tcp"/>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>  <!-- 根据你的夹爪长度调整，通常是手指尖前方 -->
+    </joint>
+    <link name="${name}_tcp"/>
+
+  </xacro:macro>
+
+</robot>

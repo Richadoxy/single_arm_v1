@@ -39,7 +39,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/base_link0.STL" />
+            filename="package://single_arm_description/meshes/collision/base_link0_simplified.STL" />
         </geometry>
       </collision>
     </link>
@@ -88,7 +88,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/Empty_Link1.STL" />
+            filename="package://single_arm_description/meshes/collision/Empty_Link1_simplified.STL" />
         </geometry>
       </collision>
     </link>
@@ -146,7 +146,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/Empty_Link2.STL" />
+            filename="package://single_arm_description/meshes/collision/Empty_Link2_simplified.STL" />
         </geometry>
       </collision>
     </link>
@@ -204,7 +204,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/Empty_Link3.STL" />
+            filename="package://single_arm_description/meshes/collision/Empty_Link3_simplified.STL" />
         </geometry>
       </collision>
     </link>
@@ -320,7 +320,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/Empty_Link5.STL" />
+            filename="package://single_arm_description/meshes/collision/Empty_Link5_simplified.STL" />
         </geometry>
       </collision>
     </link>
@@ -379,7 +379,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://single_arm_description/meshes/collision/Empty_Link6.STL" />
+            filename="package://single_arm_description/meshes/collision/Empty_Link6_simplified.STL" />
         </geometry>
       </collision>
     </link>

@@ -11,11 +11,11 @@
   <link name="world"/>
   <xacro:scene parent="world">
     <!-- 可选整体偏移，如果想把平台放在某个位置 -->
-    <origin xyz="0 0 0.98" rpy="0 0 0"/>
+    <origin xyz="0 0 0.8" rpy="0 0 0"/>
   </xacro:scene>
 
   <xacro:single_arm name="single_arm" parent="optical_table">
-    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    <origin xyz="-0.39 0.31 0.0" rpy="0 0 0"/>
   </xacro:single_arm>
 
   <xacro:gripper name="gripper" parent="Empty_Link6">

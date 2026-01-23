@@ -33,6 +33,40 @@
       </inertial>
     </link>
 
+    <link name="obstacle_box">
+      <visual>
+        <!-- 底面放在平台表面（z=0），高度0.6m，中心抬高0.3m -->
+        <origin xyz="-0.78 0.11 0.6" rpy="0 0 1.5707963"/>
+        <geometry>
+          <box size="0.05 0.5 1.2"/>  <!-- x=0.4m, y=0.6m, z=0.6m，可自行调整 -->
+        </geometry>
+        <material name="obstacle_red">
+          <color rgba="0.8 0.2 0.2 1.0"/>  <!-- 红色，便于在RViz中识别 -->
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="-0.78 0.11 0.6" rpy="0 0 1.5707963"/>
+        <geometry>
+          <box size="0.05 0.5 1.2"/>
+        </geometry>
+      </collision>
+      <!-- 可选惯性 -->
+      <inertial>
+        <origin xyz="-0.78 0.11 0.6" rpy="0 0 1.5707963"/>
+        <mass value="10.0"/>
+        <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <!-- 障碍物固定到world（与平台同层级） -->
+    <joint name="obstacle_box_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="obstacle_box"/>
+      <!-- 位置：放在平台右边（x正方向偏移1.2m），y=0，底面z=0 -->
+      <!-- 你可以根据实际平台尺寸调整偏移量 -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
     <!-- 把光学平台固定到world（或parent） -->
     <joint name="optical_table_joint" type="fixed">
       <parent link="${parent}"/>

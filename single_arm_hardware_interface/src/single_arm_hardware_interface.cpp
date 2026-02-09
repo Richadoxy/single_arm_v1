@@ -119,7 +119,7 @@ CallbackReturn SingleArmHardwareInterface::on_init(const hardware_interface::Har
 
   hw_position_commands_.resize(info.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_effort_commands_.resize(info.joints.size(), std::numeric_limits<double>::quiet_NaN());
-
+  direction_multipliers_.resize(info.joints.size(), std::numeric_limits<double>::quiet_NaN());
   control_level_.resize(info.joints.size(), IntegrationLevel::POSITION);
 
   // 从 hardware_parameters 获取 namespace（如果有）
@@ -173,8 +173,14 @@ CallbackReturn SingleArmHardwareInterface::on_init(const hardware_interface::Har
   {
     RCLCPP_WARN(logger_, "Node not available. Diagnostics will not be published");
   }
-
+  direction_multipliers_[0] = 1.0;  // 关节2
+  direction_multipliers_[1] = -1.0;  // 关节4
+  direction_multipliers_[2] = 1.0;  // 关节6
+  direction_multipliers_[3] = -1.0;  // 关节2
+  direction_multipliers_[4] = 1.0;  // 关节4
+  direction_multipliers_[5] = -1.0;  // 关节6
   executor_->add_node(node_);
+  
   RCLCPP_INFO(logger_, "Added node to the executor");
 
   RCLCPP_INFO(logger_, "Successfully initialized %zu motors", drivers_.size());
@@ -479,6 +485,13 @@ hardware_interface::return_type SingleArmHardwareInterface::perform_command_mode
     switch (level)
     {
       case IntegrationLevel::POSITION:
+        if (!std::isnan(hw_position_states_[i])) {
+          hw_position_commands_[i] = hw_position_states_[i];
+          RCLCPP_INFO(logger_, "Joint %zu (CAN ID 0x%02X) POSITION mode: Set initial command to current state %.4f",
+                      i, drivers_[i]->get_can_id(), hw_position_states_[i]);
+        } else {
+          RCLCPP_WARN(logger_, "Joint %zu: Current position state is NaN, skipping initial command set", i);
+        }
         success = drivers_[i]->send_set_mode(IntegrationLevel::POSITION);
         RCLCPP_INFO(logger_, "Joint %zu (CAN ID 0x%02X) switched to POSITION mode",
                     i, drivers_[i]->get_can_id());
@@ -550,12 +563,13 @@ hardware_interface::return_type SingleArmHardwareInterface::write(const rclcpp::
       case IntegrationLevel::POSITION:
         if (!std::isnan(hw_position_commands_[i]))
         {
-          drivers_[i]->write_position_command(hw_position_commands_[i]);
+          double cmd = hw_position_commands_[i] * direction_multipliers_[i];
+          drivers_[i]->write_position_command(cmd);
         }
         break;
       case IntegrationLevel::EFFORT:
       {
-        double effort_cmd = hw_effort_commands_[i];
+        double effort_cmd = hw_effort_commands_[i]* direction_multipliers_[i];
         if (std::isnan(effort_cmd))
         {
           effort_cmd = 0.0;  // 默认 0 电流，保持松弛但保活
@@ -659,9 +673,10 @@ void SingleArmHardwareInterface::process_can_frame(const std::variant<FdFrame::S
 
   if (processed)
   {
-    hw_position_states_[joint_index] = pos_rad;
-    hw_velocity_states_[joint_index] = vel_rad_s;
-    hw_effort_states_[joint_index] = effort;
+    double sign = direction_multipliers_[joint_index];
+    hw_position_states_[joint_index] = pos_rad* sign;
+    hw_velocity_states_[joint_index] = vel_rad_s* sign;
+    hw_effort_states_[joint_index] = effort* sign;
     enable_states_[joint_index] = enable_state;
     error_states_[joint_index] = error_code;
   }

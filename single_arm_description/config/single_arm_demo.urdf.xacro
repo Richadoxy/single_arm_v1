@@ -7,7 +7,8 @@
   <xacro:include filename="$(find single_arm_description)/urdf/gripper.urdf.xacro" />
 
 <!-- 在机械臂末端添加夹爪 -->
-
+  <xacro:arg name="sim" default="false" />
+  <xacro:arg name="use_gripper" default="true" />
   <link name="world"/>
   <xacro:scene parent="world">
     <!-- 可选整体偏移，如果想把平台放在某个位置 -->
@@ -17,11 +18,13 @@
   <xacro:single_arm name="single_arm" parent="optical_table">
     <origin xyz="-0.39 0.31 0.0" rpy="0 0 0"/>
   </xacro:single_arm>
-
-  <xacro:gripper name="gripper" parent="Empty_Link6">
-    <origin xyz="0 0 0.019" rpy="0 0 0"/>  <!-- 调整到合适姿态，通常和joint6的origin对齐 -->
-  </xacro:gripper>
+  <xacro:if value="$(arg use_gripper)">
+    <xacro:gripper name="gripper" parent="Empty_Link6">
+      <origin xyz="0 0 0.019" rpy="0 0 0"/>  
+    </xacro:gripper>
+  </xacro:if>
+  
   <xacro:single_arm_ros2_control 
-    sim="true" namespace="" />
+    sim="$(arg sim)" namespace="" />
 
 </robot>

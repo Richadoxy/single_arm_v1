@@ -105,7 +105,7 @@ bool RmdMotorDriver::send_set_mode(IntegrationLevel level)
       write_effort_command(0.0);
       break;
     default:
-      RCLCPP_ERROR(get_logger(), "WHJ [0x%02X] Invalid control level for set_mode", config_.can_id);
+      RCLCPP_ERROR(get_logger(), "RMD [0x%02X] Invalid control level for set_mode", config_.can_id);
       return false;
   }
   
@@ -155,7 +155,7 @@ int16_t RmdMotorDriver::get_target_current_units(double effort_a) const
 void RmdMotorDriver::write_position_command(double position_cmd_rad)
 {
   int32_t pos_units = get_target_position_units(position_cmd_rad);
-  int16_t max_speed = 1000;
+  int16_t max_speed = 20000;
   std::vector<uint8_t> payload(8);
   payload[0] = 0x00;
   payload[1] = 0x00;

@@ -128,7 +128,7 @@ private:
   std::vector<double> hw_position_states_;
   std::vector<double> hw_velocity_states_;
   std::vector<double> hw_effort_states_;
-
+  std::vector<double> direction_multipliers_;
   std::vector<uint16_t> enable_states_;
   std::vector<uint16_t> error_states_;
 

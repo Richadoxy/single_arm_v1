@@ -20,16 +20,35 @@ from launch_ros.actions import LifecycleNode
 
 
 def generate_launch_description():
+    sim_arg = DeclareLaunchArgument(
+        name='sim',
+        default_value='true',
+        description='Whether to use simulation mode (true) or real hardware (false)'
+    )
+    use_sim = LaunchConfiguration('sim')
+    use_gripper_arg = DeclareLaunchArgument(
+        name='use_gripper',
+        default_value='true',
+        description='Whether to include the gripper in the robot description (true/false)'
+    )
+    use_gripper = LaunchConfiguration('use_gripper')
+    
     moveit_config = (
-        MoveItConfigsBuilder("single_arm", package_name="single_arm_description")
-        .robot_description(file_path="config/single_arm_demo.urdf.xacro")
+       MoveItConfigsBuilder("single_arm", package_name="single_arm_description")
+            .robot_description(
+            file_path="config/single_arm_demo.urdf.xacro",
+            mappings={
+                'sim': use_sim,
+                'use_gripper': use_gripper
+            }
+        )
         .robot_description_semantic(file_path="config/single_arm.srdf")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .to_moveit_configs()
     )
 
     ld = LaunchDescription()
-    
+
     use_rviz = DeclareLaunchArgument("use_rviz", default_value="true")
     pub_freq = DeclareLaunchArgument("publish_frequency", default_value="15.0")
 
@@ -139,8 +158,13 @@ def generate_launch_description():
             ("~/robot_description", f"/robot_description"),
         ],
     )
-    
-
+    gravity_comp_node = Node(
+        package='single_arm_control',  # 你的包名
+        executable='grav_comp_node.py',
+        name='gravity_compensation_node',
+        output='screen',
+        parameters=[moveit_config.robot_description]  # 显式传递 robot_description 参数，确保可用
+    )
     controller_names = moveit_config.trajectory_execution.get(
         "moveit_simple_controller_manager", {}
     ).get("controller_names", [])
@@ -169,6 +193,9 @@ def generate_launch_description():
             output="screen",
         )
     )
+    ld.add_action(gravity_comp_node)
+    ld.add_action(sim_arg)
+    ld.add_action(use_gripper_arg)
     ld.add_action(use_rviz)
     ld.add_action(pub_freq)
 

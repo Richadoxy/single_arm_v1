@@ -1,0 +1,65 @@
+# robot_config.yaml
+robot:
+  num_joints_per_arm: 6
+  num_sensors: 3
+  version: 1.0 #2.1 version no more 2.0 version
+
+kinematics:
+  a: [0.0, 96.5, 346.5, 150, 0, 0]
+  alpha: [0, 1.57075, 0, 0, 1.57075, 1.57075]
+  d: [96.2, 0, 0, 0, 96.5, 185]
+  sign: [1, -1, 1, -1, 1, -1]
+  base_to_world: [0., 0., 0., 0., 0., 0.]
+  offset: [0, 1.57075, 0, 0, 1.57075, 1.57075]
+  init_mdhpos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] 
+  tool: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] # x, y, z, rx, ry, rz
+  limits: 
+    min: [-3.1415, -1.5, -3.1415, -1.5, -3.1415, -1.483486111]
+    max: [3.1415, 2.007069444, 3.1415, 2.007069444, 3.1415, 1.483486111]
+
+dynamics: 
+  dynamics_parm: # 28, 7x4 parameters
+      [-0.0329, -0.0548, 0.0, 0.0,
+      0.0306, 0.0002, -0.0548, 0.0139,
+      -0.0225, -0.0213, -0.0001, 0.0039,
+      0.0419, 0.0, -0.0213, 0.0005,
+      0.0258, 0.0116, 0.0, 0.0024,
+      0.0, 0.0095, 0.0116, -0.0018]
+  
+
+#hardware parameters
+hardware:
+  can:
+    channel: 0
+    baudrate:  1000000
+  canfd:
+    channel: 0
+    baudrate:  5000000  
+  motor:
+    ids: [1, 2, 3, 4, 5, 6]
+    enabled: [1, 1, 1, 1, 1, 1]
+    gear_ratios: [101, 101, 81, 81, 81, 81]
+    rated_torque: [60.0, 60.0, 30.0, 30.0, 10.0, 10.0]
+    max_velocity_rpm: [100, 100, 100, 100, 100, 100]
+    max_current_mA: [10.0, 10.0, 10.0, 10.0, 10.0, 10.0]
+    max_position_step: [20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
+    motor_type: [WHJ, WHJ, WHJ, RMD, RMD, RMD] 
+  torque_sensor:
+    ids: [1, 2, 3]
+    enabled: [1, 1, 1]
+    sign: [1, -1, 1]
+#parameters for the controller
+control:
+  position:
+    dt: 0.01
+    T: 5
+    command_degrees: [0, 0, 0, 0, 0, 0]
+    cartesian_command: [377.649, 377.137, 207.334, -1.50145, 0.20123, -0.691257] # [x, y, z, rx, ry, rz]
+
+  velocity:
+      interpolation_dt: 0.01
+      interpolation_T: 10
+      kp: [18.5, 18.5, 18.5, 18.5, 18.5, 18.5]
+      max_velocity: [4000.0, 4000.0, 4000.0, 4000.0, 4000.0, 4000.0]
+      error_tolerance: 50.0
+      command_degrees: [0, 0, 0, 0, 0, 0]

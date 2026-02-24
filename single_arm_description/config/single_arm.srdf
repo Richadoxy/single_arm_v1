@@ -37,6 +37,57 @@
         <joint name="joint5" value="0"/>
         <joint name="joint6" value="-0.27"/>
     </group_state> 
+    <group_state name="pos2" group="single_arm_group">
+        <joint name="joint1" value="1.15"/>
+        <joint name="joint2" value="0.63"/>
+        <joint name="joint3" value="0.73"/>
+        <joint name="joint4" value="0.89"/>
+        <joint name="joint5" value="0.22"/>
+        <joint name="joint6" value="-0.38"/>
+    </group_state> 
+
+    <group_state name="pos3" group="single_arm_group">
+        <joint name="joint1" value="-0.64"/>
+        <joint name="joint2" value="0.52"/>
+        <joint name="joint3" value="1.88"/>
+        <joint name="joint4" value="0.24"/>
+        <joint name="joint5" value="0.17"/>
+        <joint name="joint6" value="-0.36"/>
+    </group_state> 
+
+    <group_state name="pos4" group="single_arm_group">
+        <joint name="joint1" value="-0.9898250880250402"/>
+        <joint name="joint2" value="1.0017613947794293"/>
+        <joint name="joint3" value="1.6410702637971966"/>
+        <joint name="joint4" value="0.4014257279586958"/>
+        <joint name="joint5" value="-1.2217304763960306"/>
+        <joint name="joint6" value="-0.2617993877991494"/>
+    </group_state> 
+
+    <group_state name="pos5" group="single_arm_group">
+        <joint name="joint1" value="-0.08106007177962464"/>
+        <joint name="joint2" value="0.09414829584033013"/>
+        <joint name="joint3" value="2.4880680778145323"/>
+        <joint name="joint4" value="0.5235987755982988"/>
+        <joint name="joint5" value="1.0471975511965976"/>
+        <joint name="joint6" value="-0.2617993877991494"/>
+    </group_state> 
+    <group_state name="pos6" group="single_arm_group">
+        <joint name="joint1" value="0.04908738521234052"/>
+        <joint name="joint2" value="-1.295229781856016"/>
+        <joint name="joint3" value="2.079812876492783"/>
+        <joint name="joint4" value="2.3736477827122884"/>
+        <joint name="joint5" value="2.2863813201125716"/>
+        <joint name="joint6" value="-0.2617993877991494"/>
+    </group_state> 
+    <group_state name="pos7" group="single_arm_group">
+        <joint name="joint1" value="-0.6670892747217607"/>
+        <joint name="joint2" value="1.0428673893223999"/>
+        <joint name="joint3" value="1.263567763895587"/>
+        <joint name="joint4" value="2.4958208303518914"/>
+        <joint name="joint5" value="-1.3788101090755203"/>
+        <joint name="joint6" value="-0.2617993877991494"/>
+    </group_state> 
 
     <group_state name="ident_traj_start" group="single_arm_group">
         <joint name="joint1" value="0"/>
@@ -47,7 +98,7 @@
         <joint name="joint6" value="0"/>
     </group_state> 
 
-    <disable_collisions link1="optical_table" link2="obstacle_box" reason="Adjacent"/>
+    <!-- <disable_collisions link1="optical_table" link2="obstacle_box" reason="Adjacent"/> -->
     <disable_collisions link1="base_link0" link2="optical_table" reason="Adjacent"/>
     <disable_collisions link1="Empty_Link1" link2="optical_table" reason="Never"/>
     <!-- <disable_collisions link1="Empty_Link2" link2="optical_table" reason="Never"/> -->

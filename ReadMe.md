@@ -11,6 +11,17 @@ This project provides control for a single-arm robot (V1) using ROS2 Control and
 - ROS2 Humble
 
 ## Installation
+1. Install package:
+   ```
+   sudo apt install ros-humble-moveit-ros-planning-interface
+   sudo apt install ros-humble-hardware-interface
+   sudo apt install ros-humble-diagnostic-updater
+   sudo apt install ros-humble-ros2-socketcan-msgs
+   sudo apt install ros-humble-can-msgs
+   sudo apt install ros-humble-ros2-control
+   sudo apt install ros-humble-ros2-controllers
+   ```
+
 1. Make the CAN initialization script executable:
    ```
    chmod +x ./can_init.bash
